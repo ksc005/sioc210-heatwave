@@ -16,31 +16,21 @@
 %% Preview one of the float data files
 ncdisp("argo_tasman_2012_2013/D5901092_229.nc")
 
-% read some variables from the file
 lat = ncread("argo_tasman_2012_2013/D5901092_229.nc", "LATITUDE");
 long = ncread("argo_tasman_2012_2013/D5901092_229.nc", "LONGITUDE");
 
 temp = ncread("argo_tasman_2012_2013/D5901092_229.nc", "TEMP");
 tempQC = double(string(ncread("argo_tasman_2012_2013/D5901092_229.nc", "TEMP_QC")));
 
-pres = ncread("argo_tasman_2012_2013/D5901092_229.nc", "PRES"); % pressure (dbars), so approximates depth (m)
+pres = ncread("argo_tasman_2012_2013/D5901092_229.nc", "PRES");
 presQC = double(string(ncread("argo_tasman_2012_2013/D5901092_229.nc", "PRES_QC")));
 
-% concatenate variables
 data = horzcat(temp, tempQC, pres, presQC);
 
-% Quality check. If items did not pass QC, make them NaN.
-% QC codes reference:
-% http://www.argodatamgt.org/content/download/12096/80327/file/argo-dm-user-manual.pdf
-% page 57, reference table 2
 for i = 1:length(data)
-    if any(ismember([1 2 5 8], data(i,2))) == 1 & any(ismember([1 2 5 8], data(i,4))) == 1
-        continue
-    else
-        warning("Item %d, with temp %d and pressure %d, did not pass QC. Writing to NaN", i, ...
-            data(i,1), data(i,3))
-        data(i,1) = NaN;
-        data(i,3) = NaN;
+    if data(i,2) ~= 1 | data(i,4) ~= 1
+        warning("Item %d did not pass QC. Writing to NaN", i)
+        data(i,1) = NaN, data(i,3) = NaN
     end
 end
 
