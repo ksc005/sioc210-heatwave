@@ -1,5 +1,0 @@
-# ignore Mac system files
-.DS_store
-
-# ignore icon
-ICON
