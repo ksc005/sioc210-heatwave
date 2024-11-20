@@ -30,7 +30,7 @@ for i = 3:length(files)
     lat = ncread(input, "LATITUDE");
     long = ncread(input, "LONGITUDE");
     
-    % temp and pressure have QC codes, get those
+    % temp and pressure have quality control codes, get those
     tempQC = char(string(ncread(input, "TEMP_ADJUSTED_QC")));
     tempQC = double(string(tempQC(:,1)));
     
