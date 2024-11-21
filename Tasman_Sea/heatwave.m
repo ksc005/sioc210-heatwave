@@ -1,6 +1,6 @@
 %% Document Header
 
-% Topic: Tasman Sea MHW – Analysis of Normal Year
+% Topic: Tasman Sea MHW – Analysis of Heatwave Year
 
 % Date: November 2024
 
@@ -8,15 +8,15 @@
 
 % Author contributions: SYK accessed and downloaded the data; KC wrote the code.
 
-% Objective: To analyze ARGO float data in the Tasman Sea of a reference non-marine
-% heatwave year (Dec 2012-February 2013). This script will average
+% Objective: To analyze ARGO float data in the Tasman Sea of the major
+% heatwave year (Dec 2015-February 2016). This script will average
 % temperature across all floats at each depth, and output a data file of
 % this mean temperature-depth for use in comparison plots.
 
 %% Read in all float data
 clear all
 
-files = dir('argo_tasman_2012_2013/');
+files = dir('argo_tasman_2015_2016/');
 
 tic
 for i = 3:length(files)
@@ -130,4 +130,4 @@ grid on
 set(gca, 'YDir','reverse')
 
 %% Output data file of mean temperature-depth
-writetable(meanTD,'normalMeans.csv','WriteRowNames',true);  
+writetable(meanTD,'heatwaveMeans.csv','WriteRowNames',true);  
