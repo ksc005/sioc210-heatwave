@@ -13,6 +13,18 @@
 % temperature across all floats at each depth, and output a data file of
 % this mean temperature-depth for use in comparison plots.
 
+%% Test analysis of temporal resolution
+clear all
+
+input = 'argo_tasman_2012_2013/D5903943_027.nc';
+
+juld = ncread(input, "JULD"); % relative Julian days with decimal part (as parts of day). days since 1950-01-01 00:00:00 UTC
+juld_qc = ncread(input, "JULD_QC");
+ref = ncread(input, "REFERENCE_DATE_TIME");
+refDate = datetime(ref', 'InputFormat', 'yyyyMMddHHmmss');
+elapsed = caldays(double(round(juld)));
+floatDate = refDate + elapsed;
+
 %% Read in all float data
 clear all
 
