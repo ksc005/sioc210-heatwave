@@ -104,7 +104,7 @@ toc
 % changes with depth (smaller/higher resolution near surface). for now I
 % will just make layers of the same thickness
 
-nbins = ceil(max(output.pres)/50); % number of bins where each one is around 50m thick
+nbins = ceil(max(output.pres)/10); % number of bins where each one is around 50m thick
 [counts, edges] = histcounts(output.pres, nbins); % edges returns layer edges
 centers = edges(1:end-1) + diff(edges)/2; % layer centers
 
@@ -119,15 +119,7 @@ output.layer = discretize(output.pres, edges);
 output = join(output, layers);
 
 % average T at each layer
-meanTD = groupsummary(output,"layerCenter","mean","temp");
-
-% plot T-D
-figure()
-plot(meanTD.mean_temp, meanTD.layerCenter, '-o', 'LineWidth', 2)
-fontsize(16, 'points')
-xlabel("Temperature [˚C]"), ylabel("Depth (m)"), title("Sample Argo Float T-D")
-grid on
-set(gca, 'YDir','reverse')
+meanTD = groupsummary(output,"layerCenter",["mean", "median"],"temp");
 
 %% Output data file of mean temperature-depth
 writetable(meanTD,'heatwaveMeans.csv','WriteRowNames',true);  
