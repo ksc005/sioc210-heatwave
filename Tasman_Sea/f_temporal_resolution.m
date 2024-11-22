@@ -1,10 +1,11 @@
-function [floatDatesTable] = f_temporal_resolution(directory)
+function f_temporal_resolution(directory, outputName)
 % Analyze temporal sampling resolution of ARGO float data.
 %   Reads in a directory of ARGO netcdf files
 %   Outputs a table with float ID and date of the float
 
 arguments
     directory {mustBeText}
+    outputName {mustBeText}
 end
 
 files = dir(directory);
@@ -56,10 +57,11 @@ for i = 3:length(files)
     clear input floatId juld juld_qc ref refDate elapsed floatDate qcPass data passed k
 end
 
-% print confirmation
-    disp(['Completed temporal resolution run on ', files(i).folder])
-
 % output table
-    floatDatesTable = output;
+    outputFile = [char(outputName) '_dates.csv'];
+    writetimetable(output, outputFile, 'WriteVariableNames', true);  
+
+% print confirmation
+    disp(['Completed temporal resolution run on ', char(directory)])
 
 end
