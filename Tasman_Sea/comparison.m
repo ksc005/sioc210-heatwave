@@ -1,5 +1,5 @@
 %% REQUIRED. Set inputs
-% set which years you are comparing here:
+% set which years you are comparing here (identifier of the output files as you defined in RUN):
 clc, clear all
 refYear = 'ref_2012_2013';
 mhwYear = 'mhw_2015_2016';
