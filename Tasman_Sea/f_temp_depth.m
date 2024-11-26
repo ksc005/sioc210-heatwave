@@ -1,7 +1,8 @@
 function f_temp_depth(directory, outputName)
-% Summary of this function goes here
-%   Reads in ...
-%   Outputs ...
+% Get mean and median temperature-depth data for a set of ARGO floats.
+%   READS IN a directory of ARGO netcdf files
+%   OUTPUTS a csv with the center of depth layers, the number of data
+%   points in each layer, and the mean and median temperature in each layer
 
 arguments
     directory {mustBeText}

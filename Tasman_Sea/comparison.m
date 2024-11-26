@@ -1,43 +1,48 @@
-%% Document Header
+%% Set inputs
+% set which years are being compared:
+clc, clear all
+refYear = 'ref_2012_2013';
+mhwYear = 'mhw_2015_2016';
 
-% Topic: Tasman Sea MHW – Comparison of MHW and Reference Year
+%% Figure: Temporal Resolution
+% Read in data files
+refDates = readtable([refYear '_dates.csv']);
+mhwDates = readtable([mhwYear '_dates.csv']);
 
-% Date: November 2024
+% Create figure
 
-% Author(s): Kathryn Chen, Soo yoon Kim
+% Save figure
+print(['Tasman_' refYear '_' mhwYear '_temporal_res'], '-dpng')
 
-% Author contributions: SYK accessed and downloaded the original data; KC wrote the code.
+%% Figure: Temperature-Depth Profiles
+% Read in data files
+refTD = readtable([refYear '_temp_depth.csv']);
+mhwTD = readtable([mhwYear '_temp_depth.csv']);
 
-% Objective: To plot a comparison of heatwave and non-heatwave temperature-depth 
-% profiles. This script takes in mean temperature-depth files for a reference 
-% normal year (Dec 2012-Feb 2013) and the MHW year (Dec 2015-2016), and 
-% outputs a figure of T-D profiles showing both years side-by-side.
+% Set parameters
+depthLim = 500; % what depth you want to show on the plot
+lineWidth = 3;
 
-%% Read in data files
-clear all
-refYear = readtable("normalMeans.csv");
-mhwYear = readtable("heatwaveMeans.csv");
-
-%% Create figure
+% Create figure
 figure()
-plot(refYear.mean_temp, refYear.layerCenter, 'LineWidth', 3, 'Color', [0.2 0.5 0.9 0.8], 'DisplayName', ...
+plot(refTD.mean_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.8], 'DisplayName', ...
     'Reference Mean');
 hold on
-plot(refYear.median_temp, refYear.layerCenter, 'LineWidth', 3, 'Color', [0.2 0.5 0.9 0.2], 'DisplayName', ...
+plot(refTD.median_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.2], 'DisplayName', ...
     'Reference Median');
 hold on
-plot(mhwYear.mean_temp, mhwYear.layerCenter, 'LineWidth', 3, 'Color', [0.9 0.2 0.3 0.8], 'DisplayName', ...
+plot(mhwTD.mean_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.8], 'DisplayName', ...
     'MHW Mean');
 hold on
-plot(mhwYear.median_temp, mhwYear.layerCenter, 'LineWidth', 3, 'Color', [0.9 0.2 0.3 0.2], 'DisplayName', ...
+plot(mhwTD.median_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.2], 'DisplayName', ...
     'MHW Median');
 legend('Location', 'northwest')
 fontsize(16, 'points')
-ylim([0, 500])
-xlabel("Temperature [˚C]"), ylabel("Depth (m)"), title("Tasman Sea Upper 500m T-D")
+ylim([0, depthLim])
+xlabel("Temperature [˚C]"), ylabel("Depth (m)"), title(['Tasman Sea Upper ' char(string(depthLim)) 'm T-D'])
 grid on
 set(gca, 'YDir','reverse')
 hold off
 
-%% Save figure
-print('Tasman_500m_TD', '-dpng')
+% Save figure
+print(['Tasman_' refYear '_' mhwYear '_TD_' char(string(depthLim)) 'm'], '-dpng')
