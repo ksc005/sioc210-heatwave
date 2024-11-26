@@ -1,5 +1,5 @@
-%% Set inputs
-% set which years are being compared:
+%% REQUIRED. Set inputs
+% set which years you are comparing here:
 clc, clear all
 refYear = 'ref_2012_2013';
 mhwYear = 'mhw_2015_2016';
@@ -9,7 +9,22 @@ mhwYear = 'mhw_2015_2016';
 refDates = readtable([refYear '_dates.csv']);
 mhwDates = readtable([mhwYear '_dates.csv']);
 
+% count floats at each later
+refDates.Month = month(refDates.Time);
+mhwDates.Month = month(mhwDates.Time);
+
+[refCounts, refMonths] = groupcounts(refDates.Month);
+[mhwCounts, mhwMonths] = groupcounts(mhwDates.Month);
+
 % Create figure
+scatter(refMonths, refCounts, 100, "filled", 'Color', [0.2 0.5 0.9 0.8], 'DisplayName', 'Reference Year')
+hold on
+scatter(mhwMonths, mhwCounts, 100, "filled", 'Color', [0.9 0.2 0.3 0.8], 'DisplayName', 'MHW Year')
+legend('Location', 'northwest')
+fontsize(16, 'points')
+xlabel("Month"), ylabel("Number of data points"), title(['Tasman Sea Monthly Sampling Resolution'])
+grid on
+hold off
 
 % Save figure
 print(['Tasman_' refYear '_' mhwYear '_temporal_res'], '-dpng')
