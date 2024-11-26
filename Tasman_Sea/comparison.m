@@ -1,8 +1,8 @@
 %% REQUIRED. Set inputs
 % set which years you are comparing here (identifier of the output files as you defined in RUN):
 clc, clear all
-refYear = 'ref_2012_2013';
-mhwYear = 'mhw_2015_2016';
+refYear = 'ref_2013_2014_v2';
+mhwYear = 'mhw_2015_2016_v2';
 
 %% Figure: Temporal Resolution
 % Read in data files
