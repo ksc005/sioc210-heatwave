@@ -1,4 +1,4 @@
-clc, clear all
+clear all
 
 % define input directories and names of output files here
 inputs = ["argo_tasman_2012_2013", "ref_2012_2013";

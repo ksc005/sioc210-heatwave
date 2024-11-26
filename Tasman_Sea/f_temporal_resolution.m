@@ -1,7 +1,7 @@
 function f_temporal_resolution(directory, outputName)
 % Analyze temporal sampling resolution of ARGO float data.
-%   Reads in a directory of ARGO netcdf files
-%   Outputs a table with float ID and date of the float
+%   READS IN a directory of ARGO netcdf files
+%   OUTPUTS a csv with float ID and date of the float
 
 arguments
     directory {mustBeText}
