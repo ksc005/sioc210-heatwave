@@ -1,28 +1,21 @@
-%% Document Header
+function f_temp_depth(directory, outputName)
+% Get mean and median temperature-depth data for a set of ARGO floats.
+%   READS IN a directory of ARGO netcdf files
+%   OUTPUTS a csv with the center of depth layers, the number of data
+%   points in each layer, and the mean and median temperature in each layer
 
-% Topic: Tasman Sea MHW – Analysis of Heatwave Year
+arguments
+    directory {mustBeText}
+    outputName {mustBeText}
+end
 
-% Date: November 2024
+% Read in all float data
+files = dir(directory);
 
-% Author(s): Kathryn Chen, Soo yoon Kim
-
-% Author contributions: SYK accessed and downloaded the data; KC wrote the code.
-
-% Objective: To analyze ARGO float data in the Tasman Sea of the major
-% heatwave year (Dec 2015-February 2016). This script will average
-% temperature across all floats at each depth, and output a data file of
-% this mean temperature-depth for use in comparison plots.
-
-%% Read in all float data
-clear all
-
-files = dir('argo_tasman_2015_2016/');
-
-tic
 for i = 3:length(files)
     % set and declare input file name
     input = [files(i).folder '/' files(i).name];
-    disp(['Start ', files(i).name])
+    %disp(['Start ', files(i).name])
 
     % read some variables from the file
     temp = ncread(input, "TEMP_ADJUSTED");
@@ -62,8 +55,8 @@ for i = 3:length(files)
         if any(ismember([1 2 5 8], data(k,4))) == 1 & any(ismember([1 2 5 8], data(k,6))) == 1
             continue
         else
-            warning("Item [lat %d, long %d, temp %d, pressure %d] in file %s did not pass QC. Writing to NaN", ...
-                data(k,1), data(k,2), data(k,3), data(k,5), files(i).name)
+            %warning("Item [lat %d, long %d, temp %d, pressure %d] in file %s did not pass QC. Writing to NaN", ...
+            %    data(k,1), data(k,2), data(k,3), data(k,5), files(i).name)
             data(k,3) = NaN;
             data(k,5) = NaN;
         end
@@ -85,15 +78,14 @@ for i = 3:length(files)
     end
 
     % print confirmation
-    disp(['Finished ', num2str(i - 2), ' of ', num2str(length(files)-2), ' files'])
+    % disp(['Finished ', num2str(i - 2), ' of ', num2str(length(files)-2), ' files'])
 
     % clear objects
     clear input temp tempQC pres presQC lat long i k
 
 end
-toc
 
-%% Average temperature across all floats at each depth
+% Average temperature across all floats at each depth
 
 % what is meant by "each depth"? all the floats appear to take measurements
 % at slightly different pres/depth levels (e.g.: 5 floats at 2.47m, 5
@@ -121,5 +113,11 @@ output = join(output, layers);
 % average T at each layer
 meanTD = groupsummary(output,"layerCenter",["mean", "median"],"temp");
 
-%% Output data file of mean temperature-depth
-writetable(meanTD,'heatwaveMeans.csv','WriteRowNames',true);  
+% output table
+outputFile = [char(outputName) '_temp_depth.csv'];
+writetable(meanTD, outputFile, 'WriteRowNames', true);  
+
+% print confirmation
+disp(['Completed temp-depth run on ', char(directory)])
+
+end
