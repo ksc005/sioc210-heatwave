@@ -23,8 +23,8 @@ for i = 3:length(files)
 
 % get the date of the float
     refDate = datetime(ref', 'InputFormat', 'yyyyMMddHHmmss');
-    elapsed = caldays(double(round(juld)));
-    floatDate = refDate + elapsed;
+    floatDate = dateshift(refDate + days(juld), 'start', 'day');
+    % Soo Yoon: Erased the variable 'elapsed' and revised calculation method for the variable 'floatDate' (2024.Nov.27)
 
 % concatenate variables
     data = timetable(string(floatId'), string(juld_qc), 'RowTimes', floatDate,'VariableNames', ["floatId", "qcCode"]);
@@ -54,7 +54,7 @@ for i = 3:length(files)
         end
 
 % clear objects
-    clear input floatId juld juld_qc ref refDate elapsed floatDate qcPass data passed k
+    clear input floatId juld juld_qc ref refDate floatDate qcPass data passed k % Soo Yoon: Erased the variable 'elapsed' (2024.Nov.27)
 end
 
 % output table
