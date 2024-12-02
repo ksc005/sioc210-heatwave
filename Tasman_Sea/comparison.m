@@ -1,7 +1,7 @@
 %% REQUIRED. Set inputs
 % set which years you are comparing here (identifier of the output files as you defined in RUN):
 clc, clear all
-refYear = 'ref_2013_2014_v2';
+refYear = 'ref_2012_2013_v2';
 mhwYear = 'mhw_2015_2016_v2';
 
 %% Figure: Temporal Resolution
@@ -43,15 +43,18 @@ figure()
 plot(refTD.mean_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.8], 'DisplayName', ...
     'Reference Mean');
 hold on
-plot(refTD.median_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.2], 'DisplayName', ...
-    'Reference Median');
-hold on
+%plot(refTD.median_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.2], 'DisplayName', ...
+%    'Reference Median');
+%hold on
 plot(mhwTD.mean_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.8], 'DisplayName', ...
     'MHW Mean');
-hold on
-plot(mhwTD.median_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.2], 'DisplayName', ...
-    'MHW Median');
-legend('Location', 'northwest')
+%hold on
+%plot(mhwTD.median_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.2], 'DisplayName', ...
+%    'MHW Median');
+%legend('Location', 'northwest')
+
+se1 = mhwTD.mean_temp .+ mhwTD.
+
 fontsize(16, 'points')
 ylim([0, depthLim])
 xlabel("Temperature [˚C]"), ylabel("Depth (m)"), title(['Tasman Sea Upper ' char(string(depthLim)) 'm T-D'])

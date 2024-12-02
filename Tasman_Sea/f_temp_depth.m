@@ -96,7 +96,7 @@ end
 % changes with depth (smaller/higher resolution near surface). for now I
 % will just make layers of the same thickness
 
-nbins = ceil(max(output.pres)/10); % number of bins where each one is around 50m thick
+nbins = ceil(max(output.pres)/10); % number of bins where each one is around 10m thick
 [counts, edges] = histcounts(output.pres, nbins); % edges returns layer edges
 centers = edges(1:end-1) + diff(edges)/2; % layer centers
 
@@ -111,7 +111,8 @@ output.layer = discretize(output.pres, edges);
 output = join(output, layers);
 
 % average T at each layer
-meanTD = groupsummary(output,"layerCenter",["mean", "median"],"temp");
+meanTD = groupsummary(output,"layerCenter",["mean", "std"],"temp");
+meanTD.se = meanTD.std_temp ./ sqrt(meanTD.GroupCount);
 
 % output table
 outputFile = [char(outputName) '_temp_depth.csv'];
