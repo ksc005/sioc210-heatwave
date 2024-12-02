@@ -1,7 +1,7 @@
 %% REQUIRED. Set inputs
 % set which years you are comparing here (identifier of the output files as you defined in RUN):
 clc, clear all
-refYear = 'ref_2013_2014_v2';
+refYear = 'ref_2012_2013_v2';
 mhwYear = 'mhw_2015_2016_v2';
 
 %% Figure: Temporal Resolution
@@ -35,22 +35,35 @@ refTD = readtable([refYear '_temp_depth.csv']);
 mhwTD = readtable([mhwYear '_temp_depth.csv']);
 
 % Set parameters
-depthLim = 500; % what depth you want to show on the plot
+depthLim = 500; % to what depth you want to show on the plot
 lineWidth = 3;
+refColorDark = [0.2 0.5 0.9 0.8];
+refColorLight = [0.2 0.5 0.9 0.2];
+mhwColorDark = [0.9 0.2 0.3 0.8];
+mhwColorLight = [0.9 0.2 0.3 0.2];
+
+% draw standard error shapes
+mhwSe1 = mhwTD.mean_temp + mhwTD.se;
+mhwSe2 = mhwTD.mean_temp - mhwTD.se;
+mhwY2 = [mhwTD.layerCenter; fliplr(mhwTD.layerCenter')'];
+mhwX2 = [mhwSe1; fliplr(mhwSe2')'];
+
+refSe1 = refTD.mean_temp + refTD.se;
+refSe2 = refTD.mean_temp - refTD.se;
+refY2 = [refTD.layerCenter; fliplr(refTD.layerCenter')'];
+refX2 = [refSe1; fliplr(refSe2')'];
 
 % Create figure
 figure()
-plot(refTD.mean_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.8], 'DisplayName', ...
+plot(refTD.mean_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', refColorDark, 'DisplayName', ...
     'Reference Mean');
 hold on
-plot(refTD.median_temp, refTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.2 0.5 0.9 0.2], 'DisplayName', ...
-    'Reference Median');
+fill(refX2, refY2, refColorLight(1:3), 'FaceAlpha', refColorLight(4), 'EdgeColor', 'none', 'DisplayName', 'Reference Mean±SE');
 hold on
-plot(mhwTD.mean_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.8], 'DisplayName', ...
+plot(mhwTD.mean_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', mhwColorDark, 'DisplayName', ...
     'MHW Mean');
 hold on
-plot(mhwTD.median_temp, mhwTD.layerCenter, 'LineWidth', lineWidth, 'Color', [0.9 0.2 0.3 0.2], 'DisplayName', ...
-    'MHW Median');
+fill(mhwX2, mhwY2, mhwColorLight(1:3), 'FaceAlpha', mhwColorLight(4), 'EdgeColor', 'none', 'DisplayName', 'MHW Mean±SE');
 legend('Location', 'northwest')
 fontsize(16, 'points')
 ylim([0, depthLim])
