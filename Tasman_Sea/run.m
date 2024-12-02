@@ -6,13 +6,14 @@ inputs = ["data_v2/argo_tasman_2012_2013", "ref_2012_2013_v2";
 
 % which analyses do you want to run?
 get_td_plot = 1; % temperature-depth processing
+td_timescale = 'monthly'; % 'monthly' or 'full' averaging of T-D
 get_temporal_res = 0; % temporal resolution processing
 
 % run analyses
 for i = 1:height(inputs)
 
     if get_td_plot
-        f_temp_depth(inputs(i,1), inputs(i, 2))
+        f_temp_depth(inputs(i,1), inputs(i, 2), 'Timescale', td_timescale)
     end
 
     if get_temporal_res
