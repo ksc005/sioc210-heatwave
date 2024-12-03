@@ -36,7 +36,7 @@ mhwTD = readtable([mhwYear '_monthly_temp_depth.csv']);
 
 % Set parameters
 %months = unique(mhwTD.floatMonth);
-months = [12 1 2];
+months = [12 1 2]; % I've done this manually for the Tasman Sea to put December first in the order of the plots
 numMonths = length(months);
 xLim = [0, max([max(refTD.mean_temp), max(mhwTD.mean_temp)]) + 1];
 depthLim = 1000; % to what depth you want to show on the plot
@@ -49,7 +49,7 @@ mhwColorLight = [0.9 0.2 0.3 0.2];
 % Create figure
 t = tiledlayout("horizontal");
 
-for i = 1:numMonths %[1 2 12]
+for i = 1:numMonths
     nexttile
 
     % subset for the month
